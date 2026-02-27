@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "mcp": "tsx src/mcp/server.ts"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "tsx": "^4.21.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "@prisma/client": "^6.19.2",
+    "dotenv": "^17.3.1",
+    "openai": "^6.25.0",
+    "prisma": "^6.19.2"
+  }
+}

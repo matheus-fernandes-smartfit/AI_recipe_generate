@@ -1,0 +1,9 @@
+{
+  "name": "recipe-ai-monorepo",
+  "private": true,
+  "workspaces": [
+    "app",
+    "backend",
+    "shared"
+  ]
+}
