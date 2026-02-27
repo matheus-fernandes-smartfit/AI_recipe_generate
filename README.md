@@ -121,15 +121,3 @@ The app is configured to call the backend at **http://localhost:3001**. On a phy
 3. **Shared:** `cd shared && yarn build`
 4. **App:** `cd app && yarn start`
 
-## Screen Recording
-
-A 2–3 minute screen recording can show:
-
-1. Adding a recipe manually (tap "+", fill form, save).
-2. Asking the AI to find it (e.g. “What can I make with chicken?”).
-3. Asking the AI to create another recipe (e.g. “Add a recipe for pasta carbonara…”).
-4. Confirming the new recipe appears in the list.
-
-## License
-
-Private / confidential as per project terms.
