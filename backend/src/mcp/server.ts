@@ -1,6 +1,5 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 import {
   ListToolsRequestSchema,
@@ -51,8 +50,15 @@ export function createMcpServer() {
         },
       });
 
+      const payload = {
+        ok: true,
+        id: recipe.id,
+        name: recipe.name,
+        description: recipe.description,
+        createdAt: recipe.createdAt.toISOString(),
+      };
       return {
-        content: [{ type: "text", text: `Recipe created with id ${recipe.id}` }],
+        content: [{ type: "text", text: JSON.stringify(payload) }],
       };
     }
 
@@ -76,12 +82,21 @@ export function createMcpServer() {
         orderBy: { createdAt: "desc" },
       });
 
-      const text =
-        recipes.length === 0
-          ? "No recipes found."
-          : recipes.map((r) => `- ${r.name}: ${r.description}`).join("\n");
-
-      return { content: [{ type: "text", text }] };
+      const payload = {
+        count: recipes.length,
+        recipes: recipes.map((r) => ({
+          id: r.id,
+          name: r.name,
+          description: r.description,
+          ingredients: r.ingredients,
+          instructions: r.instructions,
+          tags: r.tags,
+          createdAt: r.createdAt.toISOString(),
+        })),
+      };
+      return {
+        content: [{ type: "text", text: JSON.stringify(payload) }],
+      };
     }
 
     return {
@@ -98,13 +113,3 @@ export async function connectMcpServer(transport: Transport) {
   await server.connect(transport);
   return server;
 }
-
-async function main() {
-  const transport = new StdioServerTransport();
-  await connectMcpServer(transport);
-}
-
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
