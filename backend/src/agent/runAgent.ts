@@ -65,13 +65,11 @@ export async function runAgent(history: Message[]) {
 
     const msg = completion.choices[0].message;
 
-    // Resposta final
     if (!msg.tool_calls || msg.tool_calls.length === 0) {
       finalReply = msg.content ?? finalReply;
       break;
     }
 
-    // Modelo pediu tools
     messages.push(msg);
 
     const mcpClient = await getMcpClient();

@@ -18,14 +18,12 @@ chatRouter.post("/", async (req, res) => {
 
   const { message, conversationId } = parsed.data;
 
-  // 1) Busca conversa existente (se veio id) ou cria uma nova
   const existing = conversationId
     ? await prisma.conversation.findUnique({ where: { id: conversationId } })
     : null;
 
   const conv = existing ?? (await prisma.conversation.create({ data: {} }));
 
-  // 2) Persiste mensagem do usuário
   await prisma.message.create({
     data: {
       conversationId: conv.id,
@@ -34,7 +32,6 @@ chatRouter.post("/", async (req, res) => {
     },
   });
 
-  // 3) Busca histórico (inclui a msg recém-criada)
   const history = await prisma.message.findMany({
     where: { conversationId: conv.id },
     orderBy: { createdAt: "asc" },
@@ -47,7 +44,6 @@ chatRouter.post("/", async (req, res) => {
       content: m.content,
     })),
   );
-  // 5) Persiste resposta do assistant
   await prisma.message.create({
     data: {
       conversationId: conv.id,
@@ -56,6 +52,5 @@ chatRouter.post("/", async (req, res) => {
     },
   });
 
-  // 6) Retorna reply + conversationId para continuidade
   res.json({ conversationId: conv.id, reply: assistantReply });
 });

@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# macOS
+.DS_Store
+
+# Local env
+.env
+.env*.local
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
